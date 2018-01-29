@@ -201,14 +201,14 @@ class Ui_DireccionamientoLocal(object):
                 funciones_com.config_dir(remote_conn, int, ip, mask)
 
     def setQuintaIp(self, int, remote_conn):
-        m1 = self.txt_mask4_1.text()
-        m2 = self.txt_mask4_2.text()
-        m3 = self.txt_mask4_3.text()
-        m4 = self.txt_mask4_4.text()
-        ip1 = self.txt_ip4_1.text()
-        ip2 = self.txt_ip4_2.text()
-        ip3 = self.txt_ip4_3.text()
-        ip4 = self.txt_ip4_4.text()
+        m1 = self.txt_mask5_1.text()
+        m2 = self.txt_mask5_2.text()
+        m3 = self.txt_mask5_3.text()
+        m4 = self.txt_mask5_4.text()
+        ip1 = self.txt_ip5_1.text()
+        ip2 = self.txt_ip5_2.text()
+        ip3 = self.txt_ip5_3.text()
+        ip4 = self.txt_ip5_4.text()
         valIp = ip1  + ip2 + ip3  + ip4
         valMask = m1 +  m2  + m3  + m4
         if(valIp != "" and valMask != ""):
@@ -272,9 +272,9 @@ class Ui_DireccionamientoLocal(object):
         print("4")
         self.setLoopBack("LoopBack 0", remote_conn)
         print("5")
-        time.sleep(1)
+        time.sleep(5)
         funciones2.config_OSPF(remote_conn)
-        time.sleep(1)
+        time.sleep(5)
         ctypes.windll.user32.MessageBoxW(0, "Configuración finalizada",
                                          "Done", 0)
 

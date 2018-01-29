@@ -6,7 +6,7 @@
 #
 # WARNING! All changes made in this file will be lost!
 import ctypes
-
+import time
 from PyQt5 import QtCore, QtGui, QtWidgets
 import funciones2
 import funciones_com
@@ -15,7 +15,7 @@ import paramiko
 import selectorConfiguracionMPLS
 import agregarCliente
 
-
+MAX_BUFFER = 65535
 class Ui_ConfigurarPE2(object):
 
     def showSelectorMPLS(self, Form, remote_conn):
@@ -35,7 +35,7 @@ class Ui_ConfigurarPE2(object):
 
     def setupUi(self, Dialog, remote_conn):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(636, 580)
+        Dialog.resize(650, 610)
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(50, 20, 81, 16))
         self.label.setObjectName("label")
@@ -151,13 +151,13 @@ class Ui_ConfigurarPE2(object):
         self.label_19.setGeometry(QtCore.QRect(50, 300, 81, 16))
         self.label_19.setObjectName("label_19")
         self.txt_Clientes = QtWidgets.QTextEdit(Dialog)
-        self.txt_Clientes.setGeometry(QtCore.QRect(210, 340, 281, 151))
+        self.txt_Clientes.setGeometry(QtCore.QRect(160, 340, 450, 200))
         self.txt_Clientes.setObjectName("txt_Clientes")
         self.btn_anadir = QtWidgets.QPushButton(Dialog)
-        self.btn_anadir.setGeometry(QtCore.QRect(520, 350, 93, 28))
+        self.btn_anadir.setGeometry(QtCore.QRect(300, 560, 93, 28))
         self.btn_anadir.setObjectName("btn_anadir")
         self.btn_atras = QtWidgets.QPushButton(Dialog)
-        self.btn_atras.setGeometry(QtCore.QRect(510, 530, 93, 28))
+        self.btn_atras.setGeometry(QtCore.QRect(510, 560, 93, 28))
         self.btn_atras.setObjectName("btn_atras")
         self.label_20 = QtWidgets.QLabel(Dialog)
         self.label_20.setGeometry(QtCore.QRect(80, 350, 55, 16))
@@ -166,7 +166,7 @@ class Ui_ConfigurarPE2(object):
         self.txt_AS.setGeometry(QtCore.QRect(30, 380, 113, 22))
         self.txt_AS.setObjectName("txt_AS")
         self.btn_agregarCliente = QtWidgets.QPushButton(Dialog)
-        self.btn_agregarCliente.setGeometry(QtCore.QRect(60, 530, 121, 28))
+        self.btn_agregarCliente.setGeometry(QtCore.QRect(60, 560, 121, 28))
         self.btn_agregarCliente.setObjectName("btn_agregarCliente")
         self.label_21 = QtWidgets.QLabel(Dialog)
         self.label_21.setGeometry(QtCore.QRect(360, 230, 16, 16))
@@ -214,26 +214,35 @@ class Ui_ConfigurarPE2(object):
                                     print("1")
                                     funciones2.config_iBGP(remote_conn)
                                     print("2")
+                                    time.sleep(1)
                                     funciones2.config_MP_BGP(remote_conn)
                                     print("3")
+                                    time.sleep(1)
                                     funciones2.config_cef_mpls_ldp(remote_conn)
                                     print("4")
+                                    time.sleep(1)
                                     funciones2.config_vrf(remote_conn, self.txt_vrf.text(), self.txt_AS.text(), self.txt_vlan.text())
                                     print("5")
+                                    time.sleep(1)
                                     redCliente = self.txt_ip2_1.text() + "." + self.txt_ip2_2.text() + "." + self.txt_ip2_3.text() + "." + self.txt_ip2_4.text()
                                     maskCliente = self.txt_mask2_1.text() + "." + self.txt_mask2_2.text() + "." + self.txt_mask2_3.text() + "." + self.txt_mask2_4.text()
                                     dirCliente = self.txt_ip1_1.text() + "." + self.txt_ip1_2.text() + "." + self.txt_ip1_3.text() + "." + self.txt_ip1_4.text()
                                     maskDirCliente = self.txt_mask1_1.text() + "." + self.txt_mask1_2.text() + "." + self.txt_mask1_3.text() + "." + self.txt_mask1_4.text()
                                     gatewayCliente = self.txt_mask3_1.text()+"."+self.txt_mask3_2.text()+"."+self.txt_mask3_3.text()+"."+self.txt_mask3_4.text()
                                     print("6")
+                                    time.sleep(1)
                                     funciones2.config_add_interfaz_vrf(remote_conn, self.txt_vrf.text(), self.txt_vlan.text(),
                                                                        self.txt_interfaz.text(), dirCliente, maskDirCliente)
                                     print("7")
+                                    time.sleep(1)
                                     funciones2.config_route_PE_CE(remote_conn, self.txt_vrf.text(), redCliente, maskCliente,
                                                                   gatewayCliente)
                                     print("8")
+                                    time.sleep(1)
                                     funciones2.redistribute_vrf(remote_conn, self.txt_vrf.text())
                                     print("9")
+                                    time.sleep(4)
+                                    remote_conn.recv(MAX_BUFFER)
                                     self.txt_Clientes.setText(funciones2.show_res(remote_conn))
                                     ctypes.windll.user32.MessageBoxW(0, "Configuración realizada con éxito",
                                                                      "Done", 0)
@@ -297,32 +306,32 @@ class Ui_ConfigurarPE2(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.label.setText(_translate("Dialog", "NOMBRE VRF"))
-        self.label_2.setText(_translate("Dialog", "DIRECCION IP CLIENTE"))
-        self.label_3.setText(_translate("Dialog", "."))
-        self.label_4.setText(_translate("Dialog", "."))
-        self.label_5.setText(_translate("Dialog", "."))
-        self.label_6.setText(_translate("Dialog", "."))
-        self.label_7.setText(_translate("Dialog", "."))
-        self.label_8.setText(_translate("Dialog", "."))
-        self.label_9.setText(_translate("Dialog", "."))
-        self.label_10.setText(_translate("Dialog", "."))
-        self.label_11.setText(_translate("Dialog", "."))
-        self.label_12.setText(_translate("Dialog", "."))
-        self.label_13.setText(_translate("Dialog", "."))
-        self.label_14.setText(_translate("Dialog", "."))
-        self.label_16.setText(_translate("Dialog", "LAN CLIENTE"))
-        self.label_17.setText(_translate("Dialog", "MASCARA LAN CLIENTE"))
-        self.label_18.setText(_translate("Dialog", "MASCARA CLIENTE"))
-        self.label_15.setText(_translate("Dialog", "VLAN"))
-        self.label_19.setText(_translate("Dialog", "INTERFAZ"))
-        self.btn_anadir.setText(_translate("Dialog", "Añadir"))
-        self.btn_atras.setText(_translate("Dialog", "Atras"))
-        self.label_20.setText(_translate("Dialog", "AS"))
-        self.btn_agregarCliente.setText(_translate("Dialog", "Agregar Cliente"))
-        self.label_21.setText(_translate("Dialog", "."))
-        self.label_22.setText(_translate("Dialog", "."))
-        self.label_23.setText(_translate("Dialog", "GATEWAY LAN CLIENTE"))
-        self.label_24.setText(_translate("Dialog", "."))
+        Dialog.setWindowTitle(_translate("Configurar PE", "Form"))
+        self.label.setText(_translate("Configurar PE", "NOMBRE VRF"))
+        self.label_2.setText(_translate("Configurar PE", "DIRECCION IP CLIENTE"))
+        self.label_3.setText(_translate("Configurar PE", "."))
+        self.label_4.setText(_translate("Configurar PE", "."))
+        self.label_5.setText(_translate("Configurar PE", "."))
+        self.label_6.setText(_translate("Configurar PE", "."))
+        self.label_7.setText(_translate("Configurar PE", "."))
+        self.label_8.setText(_translate("Configurar PE", "."))
+        self.label_9.setText(_translate("Configurar PE", "."))
+        self.label_10.setText(_translate("Configurar PE", "."))
+        self.label_11.setText(_translate("Configurar PE", "."))
+        self.label_12.setText(_translate("Configurar PE", "."))
+        self.label_13.setText(_translate("Configurar PE", "."))
+        self.label_14.setText(_translate("Configurar PE", "."))
+        self.label_16.setText(_translate("Configurar PE", "LAN CLIENTE"))
+        self.label_17.setText(_translate("Configurar PE", "MASCARA LAN CLIENTE"))
+        self.label_18.setText(_translate("Configurar PE", "MASCARA CLIENTE"))
+        self.label_15.setText(_translate("Configurar PE", "VLAN"))
+        self.label_19.setText(_translate("Configurar PE", "INTERFAZ"))
+        self.btn_anadir.setText(_translate("Configurar PE", "Añadir"))
+        self.btn_atras.setText(_translate("Configurar PE", "Atras"))
+        self.label_20.setText(_translate("Configurar PE", "AS"))
+        self.btn_agregarCliente.setText(_translate("Configurar PE", "Agregar Cliente"))
+        self.label_21.setText(_translate("Configurar PE", "."))
+        self.label_22.setText(_translate("Configurar PE", "."))
+        self.label_23.setText(_translate("Configurar PE", "GATEWAY LAN CLIENTE"))
+        self.label_24.setText(_translate("Configurar PE", "."))
 

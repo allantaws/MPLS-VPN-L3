@@ -19,7 +19,6 @@ import paramiko
 class Ui_SelectorConfiguracionMPLS(object):
     def configurarP(self, remote_conn):
         print("####################33CODIGO PARA CONFIGURAR P")
-        tipo_ssh = ""
         if (type(remote_conn) is paramiko.channel.Channel):
             funciones2.config_OSPF(remote_conn)
             funciones2.save_ID(remote_conn)

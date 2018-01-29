@@ -59,7 +59,7 @@ def back_home(remote_conn):
         while (not remote_conn.recv_ready()):
             time.sleep(0.5)
         output = (remote_conn.recv(MAX_BUFFER)).decode()
-    print("sal")
+        print("sal")
 
 def sh_usernames(remote_conn):
     list_users = ""
@@ -90,6 +90,9 @@ def add_import(remote_conn, name_vrf, vlan):
         if "please configure" in output:
             ctypes.windll.user32.MessageBoxW(0, "La VRF ingresada no tiene un route distinguisher asignado",
                                          "Error", 0)
+        else:
+            ctypes.windll.user32.MessageBoxW(0, "Configuración realizada con éxito",
+                                             "Done", 0)
         back_home(remote_conn)
     else:
         ctypes.windll.user32.MessageBoxW(0, "VLAN incorrecta",
@@ -106,15 +109,11 @@ def config_dir(remote_conn,interfaces, IPs, masks):
     back_home(remote_conn)
 
 def conf_plantilla(remote_conn, hostname, domain_name, dns1, dns2):
-    print("ESTOY AQUI")
     remote_conn.send("conf t\n")
     if(len(dns1)>0):
-        print("here 1")
         remote_conn.send("ip name-server "+dns1+"\n")
     if (len(dns2)>0):
-        print("here 2")
         remote_conn.send("ip name-server " + dns2+"\n")
-    print("here 3")
     remote_conn.send("host "+hostname+"\n"+"ip domain-name "+domain_name+"\n"+
                 "banner motd # ACCESO SOLO A PERSONAL AUTORIZADO#"+"\n"+
                 "line vty 0 4"+"\n"+
@@ -128,15 +127,11 @@ def conf_plantilla(remote_conn, hostname, domain_name, dns1, dns2):
                 "exec-timeout 3 3"+"\n"+
                 "logging synchronous"+"\n"+
                 "do wr"+"\n")
-    print("here 4")
     while (not remote_conn.recv_ready()):
         time.sleep(0.5)
     back_home(remote_conn)
-    print("here 5")
 
 def conf_credencial(remote_conn,user,password,privilegio):
-
-    print ("LLEGOOO")
     try:
         remote_conn.send("conf t" + "\n"+
                          "username "+user+" privilege "+privilegio+" secret "+password+'\n'+
@@ -153,12 +148,14 @@ def get_dirs_red(remote_conn):
     remote_conn.send("sh ip route connected | exclude /32\n")
     while (not remote_conn.recv_ready()):
         time.sleep(0.5)
+    time.sleep(3)
     output = (remote_conn.recv(MAX_BUFFER)).decode()
     output = output.replace('\r\n', '\n').split('\n')
     print(output)
-    for i in range(3, len(output) - 1):
+    for i in range(8, len(output) - 1):
         if ("connected" in output[i] and "/" in output[i] and not("ip" in output[i])):
             line = output[i].split(" ")
+            print(" OSPF")
             for j in range(0, len(line)):
                 if ("/" in line[j]):
                     list_dirs_red.append(line[j])
@@ -191,15 +188,15 @@ def get_ip_interfaz(remote_conn):
         time.sleep(0.5)
     output = (remote_conn.recv(MAX_BUFFER)).decode()
     output = output.replace('\r\n', '\n').split('\n')
-
     for i in range(1, len(output)-1):
         line = output[i].split()
         print(line)
         if not("#" in line[0]) and "/" in line[0]:
-            interfaz = [line[0], line[4], line[1]]
-            if line[4]!="up":
-                interfaz[1]="down"
-            info_interfaz.append(interfaz)
+            if(len(line[0].split("."))==1):
+                interfaz = [line[0], line[4], line[1]]
+                if line[4]!="up":
+                    interfaz[1]="down"
+                info_interfaz.append(interfaz)
     back_home(remote_conn)
     return info_interfaz
 
@@ -225,8 +222,6 @@ def get_ospf_neig(remote_conn):
         time.sleep(0.5)
     output = (remote_conn.recv(MAX_BUFFER)).decode()
     output = output.replace('\r\n', '\n').split('\n')
-    print(".ñ.ñ.ñ")
-    print(output)
     for i in range(1, len(output)):
         print(output[i])
         if('Attached Router' in output[i]):
@@ -265,6 +260,7 @@ def conf_mpls_interfaces(remote_conn):
             remote_conn.send("exit\n")
             while (not remote_conn.recv_ready()):
                 time.sleep(0.5)
+    time.sleep(5)
     print("out")
 
 def config_cef_mpls_ldp(remote_conn):
@@ -317,10 +313,10 @@ def redistribute_vrf(remote_conn, name_vrf):
         time.sleep(0.5)
     back_home(remote_conn)
 
-def conf_route_CE(remote_conn, int_salida):
+def conf_route_CE(remote_conn, ip_salida):
     remote_conn.send("conf t\n")
     remote_conn.send("no router ospf 1\n")
-    remote_conn.send("ip route 0.0.0.0 0.0.0.0 "+int_salida+" \n")
+    remote_conn.send("ip route 0.0.0.0 0.0.0.0 "+ip_salida+" \n")
     remote_conn.send("do wr\n")
     while (not remote_conn.recv_ready()):
         time.sleep(0.5)
@@ -355,20 +351,30 @@ def config_MP_BGP(remote_conn):
             remote_conn.send("neighbor " + bgp_neigh[i] + " send-community extended\n")
             while (not remote_conn.recv_ready()):
                 time.sleep(0.5)
-    remote_conn.send("exit-address-family")
-    remote_conn.send("end")
+    remote_conn.send("exit-address-family\n")
+    remote_conn.send("end\n")
     while (not remote_conn.recv_ready()):
         time.sleep(0.5)
     back_home(remote_conn)
 
 def show_res(remote_conn):
-    disable_paging(remote_conn)
+    copy = False
+    salida = ""
+    remote_conn.recv(1000)
     remote_conn.send("show vrf\n")
     while (not remote_conn.recv_ready()):
         time.sleep(0.5)
+    time.sleep(1)
     output = (remote_conn.recv(MAX_BUFFER)).decode()
-    back_home(remote_conn)
-    return output
+    output = output.split('\r\n')
+    for i in range(0, len(output)):
+        if("show vrf" in output[i]):
+            copy = True
+        if (copy == True):
+            salida+=(output[i]+"\r\n")
+    print("iiii")
+    print(output)
+    return salida
 
 def save_ID(remote_conn):
     back_home(remote_conn)

@@ -25,7 +25,6 @@ class Ui_SelectorCredenciales(object):
 
         print("AQUIIIIIIIIIIIIIIIII")
         print(lista)
-        time.sleep(3)
 
         ctypes.windll.user32.MessageBoxW(0,lista ,
                                          "Información usuarios", 0)

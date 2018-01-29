@@ -87,6 +87,7 @@ class Ui_Dialog(object):
         self.chk_remote.setObjectName("chk_remote")
         self.chk_remote.setChecked(True)
         self.chk_remote.setEnabled(False)
+        self.chk_remote.setVisible(False)
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
