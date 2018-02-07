@@ -17,7 +17,7 @@ import time
 
 class Ui_SelectorCredenciales(object):
 
-
+    """Hace el llamado a un método que devuelve los usuarios existentes en el router y los muestra en pantalla"""
     def verUsuarios(self,remote_conn):
         funciones2.back_home(remote_conn)
         lista=funciones2.sh_usernames(remote_conn)
@@ -29,6 +29,7 @@ class Ui_SelectorCredenciales(object):
         ctypes.windll.user32.MessageBoxW(0,lista ,
                                          "Información usuarios", 0)
 
+    """Valida el tipo de dato de los campos de texto y si todo es correcto añade un usuario al enrutador mediante otra función."""
     def showAnadirUsuario(self,SelectorCredenciales,remote_conn):
         print("here 1")
         self.AnadirUsuario = QtWidgets.QDialog()

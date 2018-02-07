@@ -17,7 +17,7 @@ import agregarCliente
 
 MAX_BUFFER = 65535
 class Ui_ConfigurarPE2(object):
-
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showSelectorMPLS(self, Form, remote_conn):
         self.selectorMpls = QtWidgets.QDialog()
         self.ui = selectorConfiguracionMPLS.Ui_SelectorConfiguracionMPLS()
@@ -25,6 +25,7 @@ class Ui_ConfigurarPE2(object):
         self.selectorMpls.show()
         Form.close()
 
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showAgregarCliente(self,Form,remote_conn):
         self.agregarCliente = QtWidgets.QDialog()
         self.ui = agregarCliente.Ui_AgregarCliente()
@@ -201,6 +202,9 @@ class Ui_ConfigurarPE2(object):
         self.btn_atras.clicked.connect(lambda: self.showSelectorMPLS(Dialog, remote_conn))
         self.txt_Clientes.setDisabled(True)
 
+    """Permite la configuración de un dispositivo PE, validando que los campos ingresados para direcciones IP sean
+    correctos. Luego, se procede a configurar los protocolos iBGP, MP-BGP, CEF, LDP, MPLS, creación de VRF y enrutamiento
+    entre dispositivos PE y CE."""
     def ConfPE(self, remote_conn):
         if self.verificarIP(self.txt_ip1_1,self.txt_ip1_2,self.txt_ip1_3,self.txt_ip1_4):
             if self.verificarIP(self.txt_ip2_1, self.txt_ip2_2, self.txt_ip2_3, self.txt_ip2_4):

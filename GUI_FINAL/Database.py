@@ -1,5 +1,7 @@
 import sqlite3
 
+"""Script individual, al ser corrido se actualiza la tabla de usuarios y contraseñas del aplicativo. Reemplazar en los
+campos ‘USUARIO’ ‘PRIVILEGIO’ ‘CONTRASENA’ por las credenciales de la persona que desea agregar a la base de datos."""
 def createTable():
     connection = sqlite3.connect('login.db')
 

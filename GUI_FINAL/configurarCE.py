@@ -15,6 +15,7 @@ import paramiko
 
 class Ui_ConfigurarCE(object):
 
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showSelectorMPLS(self, Form, remote_conn):
         self.selectorMpls = QtWidgets.QDialog()
         self.ui = selectorConfiguracionMPLS.Ui_SelectorConfiguracionMPLS()
@@ -22,6 +23,7 @@ class Ui_ConfigurarCE(object):
         self.selectorMpls.show()
         Form.close()
 
+    """Envía la configuración al enrutador obteniendo los datos de las funciones del archivo funciones2.py (ver funciones2.py)"""
     def configurar(self, Form, remote_conn):
         if self.verificarIP():
             print("ENTROOOOOOOOOOOOOOO")

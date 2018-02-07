@@ -18,6 +18,7 @@ import time
 
 
 class Ui_DireccionamientoLocal(object):
+    """Cuando esta función es llamada habilita y pone visibles los campos de texto para ingresar direcciones ipv4 por el usuario."""
     def habilitadorInt1(self):
         self.txt_ip1_1.setEnabled(True)
         self.txt_ip1_2.setEnabled(True)
@@ -72,6 +73,9 @@ class Ui_DireccionamientoLocal(object):
         self.txt_mask5_3.setEnabled(True)
         self.txt_mask5_4.setEnabled(True)
 
+
+    """Esta función recibe como parámetro una lista de interfaces disponibles del router para configurar, de esta forma
+    obtiene el numero de interfaces (máximo 5), les asigna un ID y las habilita por medio de la función habilitadorInt#()"""
     def habilitadorCampos(self, interfaces):
         n = len(interfaces)
         if n == 0:
@@ -117,6 +121,9 @@ class Ui_DireccionamientoLocal(object):
             self.lbl_int5.setEnabled(True)
             self.habilitadorInt5()
 
+
+    """Valida si el usuario ha ingresado datos para determinado campo de ipv4, de ser correcta la validación procede a
+    la configuración en el enrutador, caso contrario muestra mensaje de error."""
     def setSegundaIp(self, int, remote_conn):
         m1 = self.txt_mask2_1.text()
         m2 = self.txt_mask2_2.text()

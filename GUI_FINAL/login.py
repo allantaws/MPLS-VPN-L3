@@ -15,6 +15,7 @@ import sqlite3
 
 class Ui_Dialog(object):
 
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showRemoteWindow(self):
         self.remoteWindow = QtWidgets.QDialog()
         self.ui = Ui_Remote()
@@ -22,13 +23,17 @@ class Ui_Dialog(object):
         self.remoteWindow.show()
 
 
-
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla. 
+    Actualmente este código no se ejecuta ya que la conexión por puerto COM esta deshabilitado en esta versión de MPLStudio."""
     def showlocalWindow(self):
         self.localWindow = QtWidgets.QDialog()
         self.ui = Ui_local()
         self.ui.setupUi(self.localWindow)
         self.localWindow.show()
 
+    """Esta función verifica los datos ingresados en el cuadro de texto de login para la aplicación. Realiza conexión
+    con la base de datos bajo SQL y una vez que los datos estén validados muestra la pantalla correspondiente al tipo
+    de conexión. Por defecto en esta versión del aplicativo automáticamente entra a showRemoteWindow()"""
     def ingresar(self):
         username = self.txt_usuario.text()
         password = self.txt_contrasena.text()
@@ -103,6 +108,7 @@ class Ui_Dialog(object):
         self.txt_contrasena.setPlaceholderText(_translate("Dialog", "contraseña"))
         self.chk_remote.setText(_translate("Dialog", "Remote"))
 
+"""Este es el llamado a la acción MAIN que se ejecuta al momento de abrir la aplicación. Carga la ventana de login"""
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

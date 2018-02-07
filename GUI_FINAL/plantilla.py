@@ -15,6 +15,7 @@ import paramiko
 
 
 class Ui_Plantilla(object):
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla"""
     def showConfiguracionBasica(self,Form,remote_conn):
         self.configuracionBasica = QtWidgets.QDialog()
         self.ui = configuracionBasica.Ui_ConfiguracionBasica()
@@ -39,8 +40,11 @@ class Ui_Plantilla(object):
             else:
                 ctypes.windll.user32.MessageBoxW(0, "Error en el primer octeto", "Error", 1)
 
+    """Primero valido todos los campos de ingreso de texto. Si los campos necesarios (hostname y domain name) no están
+    completos o no validados la función lanza un mensaje de alerta. Los campos opcionales (dns1,dns2) se validan y se
+    incluyen en la configuración siempre y cuando se detecte contenido en su campo de texto, caso contrario se omiten de
+    la configuración."""
     def configurar(self,Form,remote_conn):
-
         hostname = self.txt_hostname.text()
         domainName = self.txt_domainName.text()
         if (self.verificarIP(self.txt_dns1_1,self.txt_dns1_2,self.txt_dns1_3,self.txt_dns1_4)):

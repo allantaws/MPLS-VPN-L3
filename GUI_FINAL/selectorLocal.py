@@ -13,12 +13,16 @@ import selectorConfiguracionMPLS
 
 
 class Ui_SelectorLocal(object):
+
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showConfiguracionBasicaWindow(self,SelectorLocal,remote_conn):
         self.configuracionBasicaWindow = QtWidgets.QDialog()
         self.ui = configuracionBasica.Ui_ConfiguracionBasica()
         self.ui.setupUi(self.configuracionBasicaWindow,remote_conn)
         self.configuracionBasicaWindow.show()
         SelectorLocal.close()
+
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showSelectorMPLS(self,SelectorLocaL, remote_conn):
         self.selectorConfiguracionMPLS = QtWidgets.QDialog()
         self.ui = selectorConfiguracionMPLS.Ui_SelectorConfiguracionMPLS()

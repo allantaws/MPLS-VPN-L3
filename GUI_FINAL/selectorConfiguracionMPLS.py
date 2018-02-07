@@ -17,6 +17,8 @@ import funciones_com
 import paramiko
 
 class Ui_SelectorConfiguracionMPLS(object):
+
+    """Envía la configuración al enrutador obteniendo los datos de las funciones del archivo funciones2.py (ver funciones2.py)"""
     def configurarP(self, remote_conn):
         print("####################33CODIGO PARA CONFIGURAR P")
         if (type(remote_conn) is paramiko.channel.Channel):
@@ -29,6 +31,8 @@ class Ui_SelectorConfiguracionMPLS(object):
         print("2")
         ctypes.windll.user32.MessageBoxW(0, "Configuración realizada con éxito",
                                          "Done", 0)
+
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showConfigurarPE(self,Form, remote_conn):
         self.configurarPE2 = QtWidgets.QDialog()
         self.ui = Ui_ConfigurarPE2()
@@ -36,6 +40,7 @@ class Ui_SelectorConfiguracionMPLS(object):
         self.configurarPE2.show()
         Form.close()
 
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showConfigurarCE(self,Form, remote_conn):
         self.configurarCE = QtWidgets.QDialog()
         self.ui = Ui_ConfigurarCE()
@@ -43,6 +48,7 @@ class Ui_SelectorConfiguracionMPLS(object):
         self.configurarCE.show()
         Form.close()
 
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showSelectorLocal(self, Form, remote_conn):
         self.selectorLocal = QtWidgets.QDialog()
         self.ui = selectorLocal.Ui_SelectorLocal()

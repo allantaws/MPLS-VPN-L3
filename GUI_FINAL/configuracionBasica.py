@@ -14,6 +14,7 @@ from plantilla import Ui_Plantilla
 
 
 class Ui_ConfiguracionBasica(object):
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showPlantilla(self,Form,remote_conn):
         self.plantilla = QtWidgets.QDialog()
         self.ui = Ui_Plantilla()
@@ -21,12 +22,15 @@ class Ui_ConfiguracionBasica(object):
         self.plantilla.show()
         Form.close()
 
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showSelectorCredenciales(self,Form,remote_conn):
         self.selectorCredenciales = QtWidgets.QDialog()
         self.ui = selectorCredenciales.Ui_SelectorCredenciales()
         self.ui.setupUi(self.selectorCredenciales, remote_conn)
         self.selectorCredenciales.show()
         Form.close()
+
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showDireccionamientoLocal(self,Form, remote_conn):
         self.direccionamientoLocal = QtWidgets.QDialog()
         self.ui = direccionamientoLocal.Ui_DireccionamientoLocal()
@@ -34,6 +38,7 @@ class Ui_ConfiguracionBasica(object):
         self.direccionamientoLocal.show()
         Form.close()
 
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showSelectorLocal(self,Form,remote_conn):
         self.selectorLocal = QtWidgets.QDialog()
         self.ui = selectorLocal.Ui_SelectorLocal()

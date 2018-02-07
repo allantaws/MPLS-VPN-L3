@@ -15,7 +15,7 @@ from funciones2 import *
 
 
 class Ui_Remote(object):
-
+    """Esta función permite la navegación entre ventanas, creando la instancia de la ventana y mostrándola en pantalla."""
     def showSelectorLocal(self,remote_conn):
         self.selectorLocal = QtWidgets.QDialog()
         self.ui = selectorLocal.Ui_SelectorLocal()
@@ -97,6 +97,11 @@ class Ui_Remote(object):
         self.label_5.setText(_translate("Form", "."))
         self.label_6.setText(_translate("Form", "Contraseña"))
 
+
+    """Obtiene los datos de los campos de texto de ip ingresados por el cliente, verifica que son campos con datos numéricos
+    y que los mismos sean campos coherentes con el formato de dirección ipv4. Si todos los campos están correctos intenta
+    realizar la conexión por medio de ssh. Si ocurre algún problema muestra mensaje popup informando en que campo en específico
+    existe una inconsistencia."""
     def verificarIP(self, Form):
         if self.txt_1.text().isnumeric() and (int(self.txt_1.text()) < 256):
             if self.txt_2.text().isnumeric() and (int(self.txt_2.text()) < 256):
